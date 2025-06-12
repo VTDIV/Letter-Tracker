@@ -9,12 +9,10 @@
       margin: 30px;
       background-color: #f8f9fa;
     }
-
     h1 {
       text-align: center;
       color: #343a40;
     }
-
     form {
       max-width: 800px;
       margin: 20px auto;
@@ -23,7 +21,6 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
     input, select, textarea, button {
       width: 100%;
       padding: 8px;
@@ -32,21 +29,14 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
     button {
       background-color: #007bff;
       color: white;
       cursor: pointer;
       font-weight: bold;
     }
-
     button:hover {
       background-color: #0056b3;
-    }
-
-    .confirmation {
-      text-align: center;
-      color: green;
     }
   </style>
 </head>
@@ -56,23 +46,23 @@
 
   <form id="letterForm">
     <label for="date">Date Received:</label>
-    <input type="date" id="date" name="date" required>
+    <input type="date" id="date" required>
 
     <label for="from">From (Sender):</label>
-    <input type="text" id="from" name="from" required>
+    <input type="text" id="from" required>
 
     <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required>
+    <input type="text" id="subject" required>
 
     <label for="status">Status:</label>
-    <select id="status" name="status" required>
+    <select id="status" required>
       <option value="Pending">Pending</option>
       <option value="In Progress">In Progress</option>
       <option value="Completed">Completed</option>
     </select>
 
     <label for="action">Action Taken:</label>
-    <textarea id="action" name="action" rows="3" placeholder="Enter any action or remarks..."></textarea>
+    <textarea id="action" rows="3" placeholder="Enter any action or remarks..."></textarea>
 
     <button type="submit">Submit Letter</button>
   </form>
@@ -83,11 +73,20 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const formData = new FormData(form);
+      const letter = {
+        date: document.getElementById("date").value,
+        from: document.getElementById("from").value,
+        subject: document.getElementById("subject").value,
+        status: document.getElementById("status").value,
+        action: document.getElementById("action").value.trim()
+      };
 
       fetch("https://script.google.com/macros/s/AKfycby1fYoNKZtRvEe0pZFJ_YRyNhHBFkn6ZocuMETxVBQPqthNL1TrEb1G_8md0fD3eYSu/exec", {
         method: "POST",
-        body: formData
+        body: JSON.stringify(letter),
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
       .then(response => response.text())
       .then(msg => {
@@ -99,7 +98,6 @@
       });
     });
   </script>
+
 </body>
 </html>
-
-          
